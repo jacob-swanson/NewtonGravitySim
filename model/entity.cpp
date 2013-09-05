@@ -1,4 +1,5 @@
 #include <qmath.h>
+#include <iostream>
 
 #include "entity.h"
 
@@ -9,7 +10,17 @@ Entity::Entity()
     this->acceleration_ = QVector3D(0.0, 0.0, 0.0);
     this->mass_ = 10;
     this->moveable_ = true;
-    this->timeStep_ = 1.0;
+    this->timeStep_ = 1000000.0;
+}
+
+Entity::Entity(QVector3D position, QVector3D velocity, double mass, bool moveable)
+{
+    this->position_ = position;
+    this->velocity_ = velocity;
+    this->acceleration_ = QVector3D(0.0, 0.0, 0.0);
+    this->mass_ = mass;
+    this->moveable_ = moveable;
+    this->timeStep_ = 1000000.0;
 }
 
 QVector3D Entity::position()
@@ -72,10 +83,10 @@ void Entity::setTimeStep(double timeStamp)
     this->timeStep_ = timeStamp;
 }
 
-void Entity::tick(double deltaTime, QList<Entity*> entities)
+void Entity::tick(QList<Entity*> entities)
 {
     calcAccleration(entities);
-    move(deltaTime);
+    move();
 }
 
 void Entity::calcAccleration(QList<Entity*> entities)
@@ -97,10 +108,16 @@ void Entity::calcAccleration(QList<Entity*> entities)
     this->acceleration_ = accTotal;
 }
 
-void Entity::move(double deltaTime)
+void Entity::move()
 {
     if (moveable_) {
+        //double deltaTime = ((double) this->timer_.restart()) / 1000.0;
         this->velocity_ += this->acceleration_;
-        this->position_ += this->velocity_ * this->timeStep_ * deltaTime;
+        //this->position_ += this->velocity_ * this->timeStep_ * deltaTime;
+        this->position_ += this->velocity_ * this->timeStep_;
+
     }
+
+    std::cout << this->position_.x() << " " << this->position_.y() << std::endl;
+
 }

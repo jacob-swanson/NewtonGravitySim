@@ -14,7 +14,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    model/entity.cpp
+    model/entity.cpp \
+    model/universe.cpp
 
 HEADERS += \
-    model/entity.h
+    model/entity.h \
+    model/universe.h

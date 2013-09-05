@@ -3,6 +3,7 @@
 
 #include <QVector3D>
 #include <QList>
+#include <QElapsedTimer>
 
 #define G 6.67e-11
 
@@ -10,6 +11,7 @@ class Entity
 {
 public:
     Entity();
+    Entity(QVector3D position, QVector3D velocity, double mass, bool moveable);
 
     QVector3D position();
     void setPosition(QVector3D position);
@@ -29,7 +31,7 @@ public:
     double timeStep();
     void setTimeStep(double timeStep);
 
-    void tick(double deltaTime, QList<Entity*> entities);
+    void tick(QList<Entity*> entities);
 
 private:
 
@@ -39,9 +41,10 @@ private:
     double mass_;
     bool moveable_;
     double timeStep_;
+    QElapsedTimer timer_;
 
     void calcAccleration(QList<Entity*> entities);
-    void move(double deltaTime);
+    void move();
 
 };
 
