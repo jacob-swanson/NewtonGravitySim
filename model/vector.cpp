@@ -68,6 +68,8 @@ void Vector::setZ(mpf_class z)
 
 mpf_class Vector::length() const
 {
+    // Calculate sqrt(x^2 + y^2 + z^2)
+
     mpf_class x;
     mpf_pow_ui(x.get_mpf_t(), this->x_.get_mpf_t(), 2);
 
@@ -87,6 +89,8 @@ mpf_class Vector::length() const
 
 Vector Vector::normalized() const
 {
+    // Calculate V/|V|
+
     mpf_class length = this->length();
 
     mpf_class x = this->x_ / length;
@@ -99,6 +103,7 @@ Vector Vector::normalized() const
 
 Vector Vector::scaleByFactor(mpf_class factor) const
 {
+    // Scale me by a factor
     mpf_class x = this->x_ * factor;
     mpf_class y = this->y_ * factor;
     mpf_class z = this->z_ * factor;
@@ -109,6 +114,7 @@ Vector Vector::scaleByFactor(mpf_class factor) const
 
 Vector Vector::add(Vector vector) const
 {
+    // Add a Vector to me
     mpf_class x = this->x_ + vector.x();
     mpf_class y = this->y_ + vector.y();
     mpf_class z = this->z_ + vector.z();
@@ -119,6 +125,7 @@ Vector Vector::add(Vector vector) const
 
 Vector Vector::sub(Vector vector) const
 {
+    // Subtract a Vector from me
     mpf_class x = this->x_ - vector.x();
     mpf_class y = this->y_ - vector.y();
     mpf_class z = this->z_ - vector.z();
