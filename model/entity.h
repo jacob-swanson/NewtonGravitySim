@@ -33,6 +33,9 @@ public:
     void setTimeStep(QString timeStep);
 
     void tick(QList<Entity*> entities);
+    void calcAccleration(QList<Entity*> entities);
+    void move();
+
 
 private:
 
@@ -46,8 +49,6 @@ private:
     int curStep_;
     QElapsedTimer timer_;
 
-    void calcAccleration(QList<Entity*> entities);
-    void move();
 
 };
 

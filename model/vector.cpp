@@ -126,22 +126,3 @@ Vector Vector::sub(Vector vector) const
     Vector result(x, y, z);
     return result;
 }
-
-QString Vector::toString() const
-{
-    mp_exp_t expx;
-    QString xs = QString::fromStdString(this->x_.get_str(expx));
-    xs += "e" + QString::number(expx - (int)xs.length());
-
-    mp_exp_t expy;
-    QString ys = QString::fromStdString(this->y_.get_str(expy));
-    ys += "e" + QString::number(expy - (int)ys.length());
-
-    mp_exp_t expz;
-    QString zs = QString::fromStdString(this->z_.get_str(expz));
-    zs += "e" + QString::number(expz - (int)zs.length());
-
-    //QString result(xs + " " + ys + " " + zs);
-    QString result(xs + " " + ys);
-    return result;
-}

@@ -30,8 +30,6 @@ public:
     Vector add(Vector vector) const;
     Vector sub(Vector vector) const;
 
-    QString toString() const;
-
 private:
     mpf_class x_;
     mpf_class y_;

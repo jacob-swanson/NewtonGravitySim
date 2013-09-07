@@ -1,5 +1,6 @@
 #include <qmath.h>
 #include <iostream>
+#include <iomanip>
 
 #include "entity.h"
 
@@ -89,8 +90,11 @@ void Entity::setTimeStep(QString timeStamp)
 
 void Entity::tick(QList<Entity*> entities)
 {
-    calcAccleration(entities);
-    move();
+    if (this->moveable_)
+    {
+        calcAccleration(entities);
+        move();
+    }
 }
 
 void Entity::calcAccleration(QList<Entity*> entities)
@@ -132,7 +136,7 @@ void Entity::move()
         this->position_ = this->position_.add(this->velocity_.scaleByFactor(this->timeStep_));
 
         if (this->curStep_ >= this->sampleStep_) {
-            std::cout << this->position_.toString().toStdString() << std::endl;
+            std::cout << std::setprecision(12) << this->position_.x() << " " << this->position().y() << std::endl;
             this->curStep_ = 0;
         }
 
