@@ -9,8 +9,7 @@ Universe::Universe()
 
 void Universe::simulate()
 {
-    std::cout << "Simulating " << this->entities_.length() << " entities" << std::endl;
-    while (true) {
+    for (long i = 0; i < ((31536000L * 100)*0.5); i++) {
         foreach (Entity* e, this->entities_)
         {
             e->tick(this->entities_);
