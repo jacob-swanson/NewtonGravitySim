@@ -3,7 +3,9 @@
 * Create unit tests for Entity
 * Create unit tests for Universe
 * Decide on a unit testing framework
-* Add visualization
+* Add visualization (gnuplot from code?)
 * Add functionality for easily adding Entities at any location
 * Optimize
 * Parallelize
+* Add some sort of user interface
+* Saving and loading simulation support?
