@@ -4,7 +4,8 @@
 
 #include "entity.h"
 
-int Entity::sampleStep_ = 10000;
+unsigned long Entity::sampleTick_ = 10000;
+unsigned short Entity::outputPrecision_ = 12;
 
 Entity::Entity()
 {
@@ -14,7 +15,7 @@ Entity::Entity()
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = "5.97219e24";
     this->moveable_ = true;
-    this->curStep_ = 0;
+    this->currentTick_ = 1;
 }
 
 Entity::Entity(Vector position, Vector velocity, QString mass, bool moveable)
@@ -24,7 +25,7 @@ Entity::Entity(Vector position, Vector velocity, QString mass, bool moveable)
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = mass.toStdString();
     this->moveable_ = moveable;
-    this->curStep_ = 0;
+    this->currentTick_ = 1;
 }
 
 Vector Entity::position()
@@ -128,11 +129,10 @@ void Entity::move(mpf_class deltaTime)
         this->position_ += this->velocity_ * deltaTime;
 
         // Output the position for visualization purposes every sampleStep calculations
-        if (this->curStep_ >= this->sampleStep_) {
-            std::cout << std::setprecision(12) << this->position_.x() << " " << this->position().y() << std::endl;
-            this->curStep_ = 0;
+        if ((this->sampleTick_ % this->currentTick_) > 0) {
+            std::cout << std::setprecision(this->outputPrecision_) << this->position_.x() << " " << this->position().y() << std::endl;
         }
 
-        this->curStep_++;
+        this->currentTick_++;
     }
 }

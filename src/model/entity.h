@@ -107,8 +107,9 @@ private:
     Vector acceleration_;
     mpf_class mass_;
     bool moveable_;
-    static int sampleStep_;
-    int curStep_;
+    static unsigned long sampleTick_;
+    static unsigned short outputPrecision_;
+    unsigned long currentTick_;
 
 
 };
