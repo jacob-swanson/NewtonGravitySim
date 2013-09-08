@@ -2,7 +2,6 @@
 #define ENTITY_H
 
 #include <QList>
-#include <QElapsedTimer>
 
 #include "vector.h"
 
@@ -88,10 +87,6 @@ public:
      */
     void setMoveable(bool moveable);
 
-    mpf_class timeStep();
-    void setTimeStep(QString timeStep);
-
-    void tick(QList<Entity*> entities);
     /**
      * @brief calcAccleration Calculate acceleration due to gravity from all forces in the Universe.
      * move() should always be called after calcAccleration().
@@ -103,7 +98,7 @@ public:
      * @brief move Update the Entity's position and velocity based on acceleration calculated in calcAcceleration.
      * This call should alway follow a call to calcAcceleration.
      */
-    void move();
+    void move(mpf_class deltaTime);
 
 
 private:
@@ -112,10 +107,8 @@ private:
     Vector acceleration_;
     mpf_class mass_;
     bool moveable_;
-    mpf_class timeStep_;
     static int sampleStep_;
     int curStep_;
-    QElapsedTimer timer_;
 
 
 };

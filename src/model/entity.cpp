@@ -14,7 +14,6 @@ Entity::Entity()
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = "5.97219e24";
     this->moveable_ = true;
-    this->timeStep_ = 1;
     this->curStep_ = 0;
 }
 
@@ -25,7 +24,6 @@ Entity::Entity(Vector position, Vector velocity, QString mass, bool moveable)
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = mass.toStdString();
     this->moveable_ = moveable;
-    this->timeStep_ = 1;
     this->curStep_ = 0;
 }
 
@@ -79,25 +77,6 @@ void Entity::setMoveable(bool moveable)
     this->moveable_ = moveable;
 }
 
-mpf_class Entity::timeStep()
-{
-    return this->timeStep_;
-}
-
-void Entity::setTimeStep(QString timeStamp)
-{
-    this->timeStep_ = timeStamp.toStdString();
-}
-
-void Entity::tick(QList<Entity*> entities)
-{
-    if (this->moveable_)
-    {
-        calcAccleration(entities);
-        move();
-    }
-}
-
 void Entity::calcAccleration(QList<Entity*> entities)
 {
     // Calculate acceleration from all other Entities
@@ -139,14 +118,14 @@ void Entity::calcAccleration(QList<Entity*> entities)
     //std::cout << "Total Acceleration: " << this->accleration().x() << " " << this->accleration().y() << std::endl;
 }
 
-void Entity::move()
+void Entity::move(mpf_class deltaTime)
 {
     // If the Entity can be moved, move it
     if (moveable_) {
         // Add acceleration to the velocity
-        this->velocity_ += this->acceleration_ * this->timeStep_;
+        this->velocity_ += this->acceleration_ * deltaTime;
         // Add the velocity to the position
-        this->position_ += this->velocity_ * this->timeStep_;
+        this->position_ += this->velocity_ * deltaTime;
 
         // Output the position for visualization purposes every sampleStep calculations
         if (this->curStep_ >= this->sampleStep_) {

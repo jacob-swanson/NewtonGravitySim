@@ -25,8 +25,21 @@ public:
      */
     QList<Entity*>& entities();
 
+    /**
+     * @brief deltaTime Get the deltaTime used for moving the Entities
+     * @return
+     */
+    mpf_class deltaTime();
+
+    /**
+     * @brief setDeltaTime Set the deltaTime for moving the Entities
+     * @param deltaTime
+     */
+    void setDeltaTime(mpf_class deltaTime);
+
 private:
     QList<Entity*> entities_;
+    mpf_class deltaTime_;
 };
 
 #endif // UNIVERSE_H

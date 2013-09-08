@@ -5,6 +5,7 @@
 
 Universe::Universe()
 {
+    this->deltaTime_ = 1;
 }
 
 void Universe::simulate()
@@ -18,7 +19,7 @@ void Universe::simulate()
 
         foreach (Entity* e, this->entities_)
         {
-            e->move();
+            e->move(this->deltaTime_);
         }
     }
 }
@@ -26,4 +27,14 @@ void Universe::simulate()
 QList<Entity*>& Universe::entities()
 {
     return this->entities_;
+}
+
+mpf_class Universe::deltaTime()
+{
+    return this->deltaTime_;
+}
+
+void Universe::setDeltaTime(mpf_class deltaTime)
+{
+    this->deltaTime_ = deltaTime;
 }
