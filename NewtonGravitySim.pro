@@ -22,12 +22,12 @@ QMAKE_CXXFLAGS_RELEASE *= -O3
 TEMPLATE = app
 
 
-SOURCES += main.cpp \
-    model/entity.cpp \
-    model/universe.cpp \
-    model/vector.cpp
+SOURCES += src/main.cpp \
+    src/model/entity.cpp \
+    src/model/universe.cpp \
+    src/model/vector.cpp
 
 HEADERS += \
-    model/entity.h \
-    model/universe.h \
-    model/vector.h
+    src/model/entity.h \
+    src/model/universe.h \
+    src/model/vector.h
