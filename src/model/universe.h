@@ -23,13 +23,7 @@ public:
      * @brief entities Get the list of Entities in the Universe
      * @return
      */
-    QList<Entity*> entities();
-
-    /**
-     * @brief addEntity Add an Entity to the Universe
-     * @param e
-     */
-    void addEntity(Entity* e);
+    QList<Entity*>& entities();
 
 private:
     QList<Entity*> entities_;

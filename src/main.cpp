@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
 
 
     Universe u;
-    u.addEntity(sun);
-    u.addEntity(earth);
-    u.addEntity(moon);
-    u.addEntity(mars);
-    u.addEntity(mercury);
+    u.entities().push_back(sun);
+    u.entities().push_back(earth);
+    u.entities().push_back(moon);
+    u.entities().push_back(mars);
+    u.entities().push_back(mercury);
 
     std::cout << "0 0" << std::endl;
     //std::cout << "149600000000 0" << std::endl;
