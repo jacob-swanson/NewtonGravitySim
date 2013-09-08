@@ -29,6 +29,14 @@ public:
     Vector(mpf_class x, mpf_class y, mpf_class z);
 
     /**
+     * @brief Vector Create a Vector with the given values as doubles
+     * @param x
+     * @param y
+     * @param z
+     */
+    Vector(double x, double y, double z);
+
+    /**
      * @brief x Get the x component
      * @return
      */

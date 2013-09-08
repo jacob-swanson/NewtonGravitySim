@@ -21,6 +21,13 @@ Vector::Vector(mpf_class x, mpf_class y, mpf_class z)
     this->z_ = z;
 }
 
+Vector::Vector(double x, double y, double z)
+{
+    this->x_ = x;
+    this->y_ = y;
+    this->z_ = z;
+}
+
 mpf_class Vector::x() const
 {
     return this->x_;
