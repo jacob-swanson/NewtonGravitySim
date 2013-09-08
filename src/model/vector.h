@@ -8,7 +8,7 @@ class Vector
 {
 public:
     /**
-     * @brief Vector Create a Vector (0, 0, 0)
+     * @brief Vector Create a Vector at (0, 0, 0)
      */
     Vector();
 
@@ -94,31 +94,52 @@ public:
      */
     Vector normalized() const;
 
+    // Arithmetic Operators
+    Vector operator+(const Vector& right) const;
+    Vector operator-(const Vector& right) const;
+    Vector operator*(const mpf_class& factor) const;
+    Vector operator/(const mpf_class& factor) const;
+
+    // Compound Operators
+    Vector& operator+=(const Vector& right);
+    Vector& operator-=(const Vector& right);
+    Vector& operator*=(const Vector& right);
+    Vector& operator/=(const Vector& right);
+
+
+private:
+    mpf_class x_;
+    mpf_class y_;
+    mpf_class z_;
+
     /**
-     * @brief scaleByFactor Return the Vector that has been scaled by a factor
+     * @brief multiplyByFactor Return the Vector that has been multiplied by a factor
      * @param factor
      * @return
      */
-    Vector scaleByFactor(mpf_class factor) const;
+    Vector multiplyByFactor(const mpf_class& factor) const;
+
+    /**
+     * @brief divideByFactor Return the Vector that has been divided by a factor
+     * @param factor
+     * @return
+     */
+    Vector divideByFactor(const mpf_class& factor) const;
 
     /**
      * @brief add Return the Vector that has been added to
      * @param vector
      * @return
      */
-    Vector add(Vector vector) const;
+    Vector add(const Vector& vector) const;
 
     /**
      * @brief sub Return the vector that has been subtracted from
      * @param vector
      * @return
      */
-    Vector sub(Vector vector) const;
+    Vector sub(const Vector& vector) const;
 
-private:
-    mpf_class x_;
-    mpf_class y_;
-    mpf_class z_;
 };
 
 #endif // VECTOR_H

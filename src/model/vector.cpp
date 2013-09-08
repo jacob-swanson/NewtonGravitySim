@@ -90,7 +90,6 @@ mpf_class Vector::length() const
 Vector Vector::normalized() const
 {
     // Calculate V/|V|
-
     mpf_class length = this->length();
 
     mpf_class x = this->x_ / length;
@@ -101,7 +100,7 @@ Vector Vector::normalized() const
     return result;
 }
 
-Vector Vector::scaleByFactor(mpf_class factor) const
+Vector Vector::multiplyByFactor(const mpf_class& factor) const
 {
     // Scale me by a factor
     mpf_class x = this->x_ * factor;
@@ -112,7 +111,19 @@ Vector Vector::scaleByFactor(mpf_class factor) const
     return result;
 }
 
-Vector Vector::add(Vector vector) const
+Vector Vector::divideByFactor(const mpf_class& factor) const
+{
+    // Scale me by a factor
+    mpf_class x = this->x_ / factor;
+    mpf_class y = this->y_ / factor;
+    mpf_class z = this->z_ / factor;
+
+    Vector result(x, y, z);
+    return result;
+}
+
+
+Vector Vector::add(const Vector& vector) const
 {
     // Add a Vector to me
     mpf_class x = this->x_ + vector.x();
@@ -123,7 +134,7 @@ Vector Vector::add(Vector vector) const
     return result;
 }
 
-Vector Vector::sub(Vector vector) const
+Vector Vector::sub(const Vector& vector) const
 {
     // Subtract a Vector from me
     mpf_class x = this->x_ - vector.x();
@@ -132,4 +143,60 @@ Vector Vector::sub(Vector vector) const
 
     Vector result(x, y, z);
     return result;
+}
+
+Vector Vector::operator+(const Vector& right) const
+{
+    return this->add(right);
+}
+
+Vector Vector::operator-(const Vector& right) const
+{
+    return this->sub(right);
+}
+
+Vector Vector::operator*(const mpf_class& factor) const
+{
+    return this->multiplyByFactor(factor);
+}
+
+Vector Vector::operator/(const mpf_class& factor) const
+{
+    return this->multiplyByFactor(factor);
+}
+
+Vector& Vector::operator+=(const Vector& right)
+{
+    this->x_ += right.x();
+    this->y_ += right.y();
+    this->z_ += right.z();
+
+    return *this;
+}
+
+Vector& Vector::operator-=(const Vector& right)
+{
+    this->x_ -= right.x();
+    this->y_ -= right.y();
+    this->z_ -= right.z();
+
+    return *this;
+}
+
+Vector& Vector::operator*=(const Vector& right)
+{
+    this->x_ *= right.x();
+    this->y_ *= right.y();
+    this->z_ *= right.z();
+
+    return *this;
+}
+
+Vector& Vector::operator/=(const Vector& right)
+{
+    this->x_ /= right.x();
+    this->y_ /= right.y();
+    this->z_ /= right.z();
+
+    return *this;
 }

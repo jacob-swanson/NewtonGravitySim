@@ -106,7 +106,7 @@ void Entity::calcAccleration(QList<Entity*> entities)
     {
         if (e != this) {
             // Calc distance between the two Entities
-            Vector delta = e->position().sub(this->position());
+            Vector delta = e->position() - this->position();
             //std::cout << "Delta: " << delta.x() << " " << delta.y() << std::endl;
 
             // Get the length of the distance
@@ -130,7 +130,7 @@ void Entity::calcAccleration(QList<Entity*> entities)
             //std::cout << "Acceleration Dir: " << accDir.x() << " " << accDir.y() << std::endl;
 
             // Add the acceleration to the pool
-            accTotal = accTotal.add(accDir.scaleByFactor(a));
+            accTotal += accDir * a;
         }
     }
 
@@ -144,9 +144,9 @@ void Entity::move()
     // If the Entity can be moved, move it
     if (moveable_) {
         // Add acceleration to the velocity
-        this->velocity_ = this->velocity_.add(this->acceleration_.scaleByFactor(this->timeStep_));
+        this->velocity_ += this->acceleration_ * this->timeStep_;
         // Add the velocity to the position
-        this->position_ = this->position_.add(this->velocity_.scaleByFactor(this->timeStep_));
+        this->position_ += this->velocity_ * this->timeStep_;
 
         // Output the position for visualization purposes every sampleStep calculations
         if (this->curStep_ >= this->sampleStep_) {
