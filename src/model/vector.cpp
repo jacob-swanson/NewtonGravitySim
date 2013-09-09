@@ -98,6 +98,9 @@ Vector Vector::normalized() const
 {
     // Calculate V/|V|
     mpf_class length = this->length();
+    if (length == 0) {
+        return Vector(0,0,0);
+    }
 
     mpf_class x = this->x_ / length;
     mpf_class y = this->y_ / length;
