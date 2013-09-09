@@ -98,6 +98,9 @@ Vector Vector::normalized() const
 {
     // Calculate V/|V|
     mpf_class length = this->length();
+    if (length == 0) {
+        return Vector(0,0,0);
+    }
 
     mpf_class x = this->x_ / length;
     mpf_class y = this->y_ / length;
@@ -169,7 +172,7 @@ Vector Vector::operator*(const mpf_class& factor) const
 
 Vector Vector::operator/(const mpf_class& factor) const
 {
-    return this->multiplyByFactor(factor);
+    return this->multiplyByFactor(1/factor);
 }
 
 Vector& Vector::operator+=(const Vector& right)
@@ -190,20 +193,44 @@ Vector& Vector::operator-=(const Vector& right)
     return *this;
 }
 
-Vector& Vector::operator*=(const Vector& right)
+Vector& Vector::operator*=(const mpf_class& right)
 {
-    this->x_ *= right.x();
-    this->y_ *= right.y();
-    this->z_ *= right.z();
+    this->x_ *= right;
+    this->y_ *= right;
+    this->z_ *= right;
 
     return *this;
 }
 
-Vector& Vector::operator/=(const Vector& right)
+Vector& Vector::operator/=(const mpf_class& right)
 {
-    this->x_ /= right.x();
-    this->y_ /= right.y();
-    this->z_ /= right.z();
+    this->x_ /= right;
+    this->y_ /= right;
+    this->z_ /= right;
 
     return *this;
+}
+
+bool Vector::operator==(const Vector& right) const
+{
+    if (this->x_ == right.x()
+            && this->y_ == right.y()
+            && this->z_ == right.z())
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Vector::operator!=(const Vector& right) const
+{
+    if (this->x_ != right.x()
+            || this->y_ != right.y()
+            || this->z_ != right.z())
+    {
+        return true;
+    } else {
+        return false;
+    }
 }
