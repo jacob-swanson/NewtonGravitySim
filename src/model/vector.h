@@ -114,6 +114,10 @@ public:
     Vector& operator*=(const Vector& right);
     Vector& operator/=(const Vector& right);
 
+    // Compairson Operators
+    bool operator==(const Vector& right) const;
+    bool operator!=(const Vector& right) const;
+
 
 private:
     mpf_class x_;

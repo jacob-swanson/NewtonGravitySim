@@ -207,3 +207,27 @@ Vector& Vector::operator/=(const Vector& right)
 
     return *this;
 }
+
+bool Vector::operator==(const Vector& right) const
+{
+    if (this->x_ == right.x()
+            && this->y_ == right.y()
+            && this->z_ == right.z())
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Vector::operator!=(const Vector& right) const
+{
+    if (this->x_ != right.x()
+            || this->y_ != right.y()
+            || this->z_ != right.z())
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
