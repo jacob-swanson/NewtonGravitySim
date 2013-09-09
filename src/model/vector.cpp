@@ -193,20 +193,20 @@ Vector& Vector::operator-=(const Vector& right)
     return *this;
 }
 
-Vector& Vector::operator*=(const Vector& right)
+Vector& Vector::operator*=(const mpf_class& right)
 {
-    this->x_ *= right.x();
-    this->y_ *= right.y();
-    this->z_ *= right.z();
+    this->x_ *= right;
+    this->y_ *= right;
+    this->z_ *= right;
 
     return *this;
 }
 
-Vector& Vector::operator/=(const Vector& right)
+Vector& Vector::operator/=(const mpf_class& right)
 {
-    this->x_ /= right.x();
-    this->y_ /= right.y();
-    this->z_ /= right.z();
+    this->x_ /= right;
+    this->y_ /= right;
+    this->z_ /= right;
 
     return *this;
 }

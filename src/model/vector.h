@@ -111,8 +111,8 @@ public:
     // Compound Operators
     Vector& operator+=(const Vector& right);
     Vector& operator-=(const Vector& right);
-    Vector& operator*=(const Vector& right);
-    Vector& operator/=(const Vector& right);
+    Vector& operator*=(const mpf_class& right);
+    Vector& operator/=(const mpf_class& right);
 
     // Compairson Operators
     bool operator==(const Vector& right) const;
