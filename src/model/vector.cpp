@@ -172,7 +172,7 @@ Vector Vector::operator*(const mpf_class& factor) const
 
 Vector Vector::operator/(const mpf_class& factor) const
 {
-    return this->multiplyByFactor(factor);
+    return this->multiplyByFactor(1/factor);
 }
 
 Vector& Vector::operator+=(const Vector& right)
