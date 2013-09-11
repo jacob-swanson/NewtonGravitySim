@@ -1,11 +1,10 @@
 * Decide whether or not to remove Qt dependencies 
-* Create unit tests for Vector
+* Create better unit tests for Vector
 * Create unit tests for Entity
 * Create unit tests for Universe
-* Decide on a unit testing framework
-* Add visualization (gnuplot from code?)
+* Find a better unit testing framework
 * Add functionality for easily adding Entities at any location
 * Optimize
 * Parallelize
 * Add some sort of user interface
-* Saving and loading simulation support?
+* Saving and loading simulation support
