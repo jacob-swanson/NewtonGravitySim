@@ -22,6 +22,11 @@ public:
     void simulate();
 
     /**
+     * @brief simulateStep Simulate a single iteration of the Universe
+     */
+    void simulateStep();
+
+    /**
      * @brief entities Get the list of Entities in the Universe
      * @return
      */

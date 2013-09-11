@@ -2,10 +2,12 @@
 #define ENTITY_H
 
 #include <QList>
+#include <Polycode.h>
 
 #include "vector.h"
 
 #define G 6.67e-11
+#define SCALE 1000000000
 
 namespace ngs
 {
@@ -27,7 +29,7 @@ public:
      * @param mass Mass of the Entity in kilograms
      * @param moveable True if Entity will move, false otherwise
      */
-    Entity(Vector position, Vector velocity, QString mass, bool moveable);
+    Entity(Vector position, Vector velocity, QString mass, QString diameter, bool moveable);
 
     /**
      * @brief position Get the current position of the Entity in meters
@@ -78,6 +80,18 @@ public:
     void setMass(double mass);
 
     /**
+     * @brief diameter Get the diameter of the Entity in meters
+     * @return
+     */
+    mpf_class diameter();
+
+    /**
+     * @brief setDiameter Set the diameter fo the Entity in meters
+     * @param diameter
+     */
+    void setDiameter(mpf_class diameter);
+
+    /**
      * @brief moveable Get whether the Entity can move.
      * @return If false, no acceleration or movement will occur for this Entity. If true, acceleration and movement will occur.
      */
@@ -102,6 +116,8 @@ public:
      */
     void move(mpf_class deltaTime);
 
+    Polycode::ScenePrimitive* getRenderComponent();
+
 
 private:
     Vector position_;
@@ -112,7 +128,8 @@ private:
     static unsigned long sampleTick_;
     static unsigned short outputPrecision_;
     unsigned long currentTick_;
-
+    mpf_class diameter_;
+    Polycode::ScenePrimitive* renderComponent_;
 
 };
 }

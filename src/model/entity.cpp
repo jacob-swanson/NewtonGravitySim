@@ -17,18 +17,27 @@ Entity::Entity()
     this->velocity_ = Vector("0", "0", "0");
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = "5.97219e24";
+    this->diameter_ = "40075000";
     this->moveable_ = true;
     this->currentTick_ = 1;
+
+    //this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, this->diameter_.get_d() / SCALE);
+    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, 10, 10);
 }
 
-Entity::Entity(Vector position, Vector velocity, QString mass, bool moveable)
+Entity::Entity(Vector position, Vector velocity, QString mass, QString diameter, bool moveable)
 {
     this->position_ = position;
     this->velocity_ = velocity;
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = mass.toStdString();
+    this->diameter_ = diameter.toStdString();
     this->moveable_ = moveable;
     this->currentTick_ = 1;
+
+    //this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, this->diameter_.get_d() / SCALE);
+    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, 1, 8, 8);
+    this->renderComponent_->setColor(0,1,0,1);
 }
 
 Vector Entity::position()
@@ -69,6 +78,16 @@ mpf_class Entity::mass()
 void Entity::setMass(double mass)
 {
     this->mass_ = mass;
+}
+
+mpf_class Entity::diameter()
+{
+    return this->diameter_;
+}
+
+void Entity::setDiameter(mpf_class diameter)
+{
+    this->diameter_ = diameter;
 }
 
 bool Entity::moveable()
@@ -130,12 +149,18 @@ void Entity::move(mpf_class deltaTime)
         this->velocity_ += this->acceleration_ * deltaTime;
         // Add the velocity to the position
         this->position_ += this->velocity_ * deltaTime;
+        this->renderComponent_->setPosition(this->position_.x().get_d() / SCALE, this->position_.y().get_d() / SCALE, this->position_.z().get_d() / SCALE);
 
         // Output the position for visualization purposes every sampleStep calculations
-        if ((this->sampleTick_ % this->currentTick_) > 0) {
-            std::cout << std::setprecision(this->outputPrecision_) << this->position_.x() << " " << this->position().y() << std::endl;
-        }
+//        if ((this->sampleTick_ % this->currentTick_) > 0) {
+//            std::cout << std::setprecision(this->outputPrecision_) << this->position_.x() << " " << this->position().y() << std::endl;
+//        }
 
         this->currentTick_++;
     }
+}
+
+Polycode::ScenePrimitive* Entity::getRenderComponent()
+{
+    return this->renderComponent_;
 }
