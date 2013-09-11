@@ -1,5 +1,7 @@
 #include "vector.h"
 
+using ngs::Vector;
+
 Vector::Vector()
 {
     this->x_ = 0;

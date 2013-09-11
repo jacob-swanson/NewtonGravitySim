@@ -4,6 +4,8 @@
 #include <gmpxx.h>
 #include <QString>
 
+namespace ngs
+{
 class Vector
 {
 public:
@@ -153,5 +155,6 @@ private:
     Vector sub(const Vector& vector) const;
 
 };
+}
 
 #endif // VECTOR_H

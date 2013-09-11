@@ -3,6 +3,8 @@
 
 #include "entity.h"
 
+namespace ngs
+{
 /**
  * @brief The Universe class
  */
@@ -41,5 +43,6 @@ private:
     QList<Entity*> entities_;
     mpf_class deltaTime_;
 };
+}
 
 #endif // UNIVERSE_H

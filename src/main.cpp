@@ -9,14 +9,14 @@ int main(int argc, char *argv[])
 
     //QCoreApplication a(argc, argv);
 
-    Entity* sun = new Entity(Vector("0", "0", "0"), Vector("0", "0", "0"), "1.9891e30", false);
-    Entity* earth = new Entity(Vector("149600000000", "0", "0"), Vector("0", "29780", "0"), "5.97219e24", true);
-    Entity* moon = new Entity(Vector("149984400000", "0", "0"), Vector("0", "30802", "0"), "7.34767309e22", true);
-    Entity* mars = new Entity(Vector("227900000000", "0", "0"), Vector("0", "24077", "0"), "639e21", true);
-    Entity* mercury = new Entity(Vector("57910000000", "0", "0"), Vector("0", "47870", "0"), "328.5e21", true);
+    ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", false);
+    ngs::Entity* earth = new ngs::Entity(ngs::Vector("149600000000", "0", "0"), ngs::Vector("0", "29780", "0"), "5.97219e24", true);
+    ngs::Entity* moon = new ngs::Entity(ngs::Vector("149984400000", "0", "0"), ngs::Vector("0", "30802", "0"), "7.34767309e22", true);
+    ngs::Entity* mars = new ngs::Entity(ngs::Vector("227900000000", "0", "0"), ngs::Vector("0", "24077", "0"), "639e21", true);
+    ngs::Entity* mercury = new ngs::Entity(ngs::Vector("57910000000", "0", "0"), ngs::Vector("0", "47870", "0"), "328.5e21", true);
 
 
-    Universe u;
+    ngs::Universe u;
     u.entities().push_back(sun);
     u.entities().push_back(earth);
     u.entities().push_back(moon);

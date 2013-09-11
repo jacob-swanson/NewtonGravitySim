@@ -7,6 +7,8 @@
 
 #define G 6.67e-11
 
+namespace ngs
+{
 /**
  * @brief The Entity class
  */
@@ -113,5 +115,6 @@ private:
 
 
 };
+}
 
 #endif // ENTITY_H

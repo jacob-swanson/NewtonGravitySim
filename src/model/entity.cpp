@@ -4,6 +4,9 @@
 
 #include "entity.h"
 
+using ngs::Entity;
+using ngs::Vector;
+
 unsigned long Entity::sampleTick_ = 10000;
 unsigned short Entity::outputPrecision_ = 12;
 

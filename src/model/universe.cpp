@@ -3,6 +3,9 @@
 #include <QMutex>
 #include <iostream>
 
+using ngs::Universe;
+using ngs::Entity;
+
 Universe::Universe()
 {
     this->deltaTime_ = 1;
