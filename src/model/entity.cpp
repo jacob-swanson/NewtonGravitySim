@@ -37,7 +37,7 @@ Entity::Entity(Vector position, Vector velocity, QString mass, QString diameter,
     this->currentTick_ = 1;
 
     this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, 16, 16);
-    //this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, 1, 16, 16);
+//    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, 1, 16, 16);
     this->renderComponent_->setColor(0,1,0,1);
 }
 
