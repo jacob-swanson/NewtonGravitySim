@@ -14,12 +14,17 @@ public:
     ~App();
 
     bool update();
+    void handleEvent(Event* e);
 
 private:
     Core* core;
     Scene* scene;
+    Screen* screen;
+    ScreenLabel* label;
 
     ngs::Universe* universe;
+
+    ngs::Entity* viewTarget;
 };
 
 #endif // APP_H
