@@ -15,7 +15,7 @@ App::App(PolycodeView* view) : EventHandler()
     CoreServices::getInstance()->getRenderer()->setClippingPlanes(0.1f, 1000000000.f);
 
     // Create simulation entities
-    ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", "1391000000", "sun", false);
+    ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", "1391000000", "sun", true);
     ngs::Entity* earth = new ngs::Entity(ngs::Vector("149600000000", "0", "0"), ngs::Vector("0", "29780", "0"), "5.97219e24", "12742000", "earth", true);
     ngs::Entity* moon = new ngs::Entity(ngs::Vector("149984400000", "0", "0"), ngs::Vector("0", "30802", "0"), "7.34767309e22", "3474800", "moon", true);
     ngs::Entity* mars = new ngs::Entity(ngs::Vector("227900000000", "0", "0"), ngs::Vector("0", "24077", "0"), "639e21", "6779000", "mars", true);
@@ -54,6 +54,11 @@ App::App(PolycodeView* view) : EventHandler()
     core->getInput()->addEventListener(this, InputEvent::EVENT_MOUSEWHEEL_UP);
     core->getInput()->addEventListener(this, InputEvent::EVENT_MOUSEWHEEL_DOWN);
     core->getInput()->addEventListener(this, InputEvent::EVENT_KEYDOWN);
+    core->getInput()->addEventListener(this, InputEvent::EVENT_MOUSEMOVE);
+    core->getInput()->addEventListener(this, InputEvent::EVENT_MOUSEDOWN);
+    core->getInput()->addEventListener(this, InputEvent::EVENT_MOUSEUP);
+
+    this->mouseDown = false;
 }
 
 App::~App()
@@ -65,24 +70,23 @@ bool App::update()
     // Simulate one step of the universe
     universe->simulateStep();
 
-    // Update the camera
+    // Update the camera's position
     Vector3 camPos = viewTarget->renderCoords();
-
     Vector3 camOffsetNorm;
     camOffsetNorm.x = this->camOffset.x * sin(this->camOffset.y) * cos(this->camOffset.z);
     camOffsetNorm.y = this->camOffset.x * sin(this->camOffset.y) * sin(this->camOffset.z);
     camOffsetNorm.z = this->camOffset.x * cos(this->camOffset.y);
     camPos += camOffsetNorm;
 
+    // Set the camera's position
     scene->getDefaultCamera()->setPosition(camPos);
     scene->getDefaultCamera()->lookAt(this->viewTarget->renderCoords(), Vector3(0,0,1));
 
     // Update the text label
-//    QString labelText = "Target: " + this->viewTarget->name() + " Velocity: " + QString::number(this->viewTarget->velocity().length().get_d()) + " m/s";
-    QString labelText = QString::number(this->camOffset.x * (180/PI)) + ", ";
-    labelText += QString::number(this->camOffset.y * (180/PI)) + ", ";
-    labelText += QString::number(this->camOffset.z * (180/PI)) + ", ";
-
+    QString labelText = "Target: " + this->viewTarget->name()
+            + " Velocity: "
+            + QString::number(this->viewTarget->velocity().length().get_d())
+            + " m/s";
     label->setText(labelText.toStdString());
 
     // Render a frame
@@ -99,7 +103,6 @@ void App::handleEvent(Event *e)
         if (e->getEventCode() == InputEvent::EVENT_MOUSEWHEEL_UP)
         {
             // Zoomin by 10%
-//            this->camDistance = this->camDistance - (this->camDistance * 0.1);
             this->camOffset.x -= this->camOffset.x * 0.1;
             if (this->camOffset.x < 0)
                 this->camOffset.x = 0;
@@ -107,7 +110,6 @@ void App::handleEvent(Event *e)
         else if (e->getEventCode() == InputEvent::EVENT_MOUSEWHEEL_DOWN)
         {
             // Zoomout by 10%
-//            this->camDistance = this->camDistance + (this->camDistance * 0.1);
             this->camOffset.x += this->camOffset.x * 0.1;
         }
         else if (e->getEventCode() == InputEvent::EVENT_KEYDOWN)
@@ -138,21 +140,40 @@ void App::handleEvent(Event *e)
 
                 this->viewTarget = universe->entities().at(index);
             }
-            else if (inputEvent->keyCode() == KEY_w)
+        }
+        else if (e->getEventCode() == InputEvent::EVENT_MOUSEDOWN)
+        {
+            // Right mouse button is held
+            if (inputEvent->getMouseButton() == CoreInput::MOUSE_BUTTON2)
+                this->mouseDown = true;
+        }
+        else if (e->getEventCode() == InputEvent::EVENT_MOUSEUP)
+        {
+            // Right mouse button is no longer held
+            if (inputEvent->getMouseButton() == CoreInput::MOUSE_BUTTON2)
+                this->mouseDown = false;
+        }
+        else if (e->getEventCode() == InputEvent::EVENT_MOUSEMOVE)
+        {
+            // Move the camera offset
+            if (this->mouseDown)
             {
-                this->camOffset.y -= PI/24;
-            }
-            else if (inputEvent->keyCode() == KEY_s)
-            {
-                this->camOffset.y += PI/24;
-            }
-            else if (inputEvent->keyCode() == KEY_a)
-            {
-                this->camOffset.z += PI/24;
-            }
-            else if (inputEvent->keyCode() == KEY_d)
-            {
-                this->camOffset.z -= PI/24;
+                Vector2 delta = this->core->getInput()->getMouseDelta();
+
+                this->camOffset.y += -1 * PI * delta.y * 0.001;
+                this->camOffset.z += -1 * PI * delta.x * 0.001;
+
+                // Clamp theta to [0,PI]
+                if (this->camOffset.y > PI)
+                    this->camOffset.y = PI;
+                else if (this->camOffset.y < 0)
+                    this->camOffset.y = 0;
+
+                // Allow phi to wrap around from [0,2*PI]
+                if (this->camOffset.z < 0)
+                    this->camOffset.z = 2 * PI;
+                else if (this->camOffset.z > 2 * PI)
+                    this->camOffset.z = 0;
             }
         }
     }

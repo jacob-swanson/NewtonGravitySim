@@ -25,6 +25,7 @@ private:
     ngs::Universe* universe;
     ngs::Entity* viewTarget;
     Vector3 camOffset;
+    bool mouseDown;
 };
 
 #endif // APP_H
