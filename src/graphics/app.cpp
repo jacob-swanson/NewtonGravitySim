@@ -1,4 +1,5 @@
 #include "app.h"
+#include <math.h>
 
 App::App(PolycodeView* view) : EventHandler()
 {
@@ -14,7 +15,7 @@ App::App(PolycodeView* view) : EventHandler()
     CoreServices::getInstance()->getRenderer()->setClippingPlanes(0.1f, 1000000000.f);
 
     // Create simulation entities
-    ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", "1391000000", "sun", true);
+    ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", "1391000000", "sun", false);
     ngs::Entity* earth = new ngs::Entity(ngs::Vector("149600000000", "0", "0"), ngs::Vector("0", "29780", "0"), "5.97219e24", "12742000", "earth", true);
     ngs::Entity* moon = new ngs::Entity(ngs::Vector("149984400000", "0", "0"), ngs::Vector("0", "30802", "0"), "7.34767309e22", "3474800", "moon", true);
     ngs::Entity* mars = new ngs::Entity(ngs::Vector("227900000000", "0", "0"), ngs::Vector("0", "24077", "0"), "639e21", "6779000", "mars", true);
@@ -39,6 +40,7 @@ App::App(PolycodeView* view) : EventHandler()
     universe->entities().push_back(mercury);
 
     // Set the initial camera position
+    this->camOffset.x = 400;
     scene->getDefaultCamera()->setPosition(0, 0, 400);
     scene->getDefaultCamera()->lookAt(Vector3(0, 0, 0));
 
@@ -65,12 +67,22 @@ bool App::update()
 
     // Update the camera
     Vector3 camPos = viewTarget->renderCoords();
-    scene->getDefaultCamera()->setPositionX(camPos.x);
-    scene->getDefaultCamera()->setPositionY(camPos.y);
-    scene->getDefaultCamera()->lookAt(this->viewTarget->renderCoords());
+
+    Vector3 camOffsetNorm;
+    camOffsetNorm.x = this->camOffset.x * sin(this->camOffset.y) * cos(this->camOffset.z);
+    camOffsetNorm.y = this->camOffset.x * sin(this->camOffset.y) * sin(this->camOffset.z);
+    camOffsetNorm.z = this->camOffset.x * cos(this->camOffset.y);
+    camPos += camOffsetNorm;
+
+    scene->getDefaultCamera()->setPosition(camPos);
+    scene->getDefaultCamera()->lookAt(this->viewTarget->renderCoords(), Vector3(0,0,1));
 
     // Update the text label
-    QString labelText = "Target: " + this->viewTarget->name() + " Velocity: " + QString::number(this->viewTarget->velocity().length().get_d()) + " m/s";
+//    QString labelText = "Target: " + this->viewTarget->name() + " Velocity: " + QString::number(this->viewTarget->velocity().length().get_d()) + " m/s";
+    QString labelText = QString::number(this->camOffset.x * (180/PI)) + ", ";
+    labelText += QString::number(this->camOffset.y * (180/PI)) + ", ";
+    labelText += QString::number(this->camOffset.z * (180/PI)) + ", ";
+
     label->setText(labelText.toStdString());
 
     // Render a frame
@@ -87,14 +99,16 @@ void App::handleEvent(Event *e)
         if (e->getEventCode() == InputEvent::EVENT_MOUSEWHEEL_UP)
         {
             // Zoomin by 10%
-            Vector3 camPos = scene->getDefaultCamera()->getPosition();
-            scene->getDefaultCamera()->setPositionZ(camPos.z - (camPos.z * 0.1));
+//            this->camDistance = this->camDistance - (this->camDistance * 0.1);
+            this->camOffset.x -= this->camOffset.x * 0.1;
+            if (this->camOffset.x < 0)
+                this->camOffset.x = 0;
         }
         else if (e->getEventCode() == InputEvent::EVENT_MOUSEWHEEL_DOWN)
         {
             // Zoomout by 10%
-            Vector3 camPos = scene->getDefaultCamera()->getPosition();
-            scene->getDefaultCamera()->setPositionZ(camPos.z + (camPos.z * 0.1));
+//            this->camDistance = this->camDistance + (this->camDistance * 0.1);
+            this->camOffset.x += this->camOffset.x * 0.1;
         }
         else if (e->getEventCode() == InputEvent::EVENT_KEYDOWN)
         {
@@ -123,6 +137,22 @@ void App::handleEvent(Event *e)
                     index += 1;
 
                 this->viewTarget = universe->entities().at(index);
+            }
+            else if (inputEvent->keyCode() == KEY_w)
+            {
+                this->camOffset.y -= PI/24;
+            }
+            else if (inputEvent->keyCode() == KEY_s)
+            {
+                this->camOffset.y += PI/24;
+            }
+            else if (inputEvent->keyCode() == KEY_a)
+            {
+                this->camOffset.z += PI/24;
+            }
+            else if (inputEvent->keyCode() == KEY_d)
+            {
+                this->camOffset.z -= PI/24;
             }
         }
     }

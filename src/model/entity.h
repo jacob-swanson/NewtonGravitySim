@@ -7,7 +7,7 @@
 #include "vector.h"
 
 #define G 6.67e-11
-#define SCALE 10000000
+#define SCALE 1000000000
 
 namespace ngs
 {

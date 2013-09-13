@@ -23,8 +23,8 @@ private:
     ScreenLabel* label;
 
     ngs::Universe* universe;
-
     ngs::Entity* viewTarget;
+    Vector3 camOffset;
 };
 
 #endif // APP_H
