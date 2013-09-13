@@ -21,22 +21,22 @@ Entity::Entity()
     this->moveable_ = true;
     this->currentTick_ = 1;
 
-    //this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, this->diameter_.get_d() / SCALE);
-    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, 10, 10);
+    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, 16, 16);
+    this->renderComponent_->setColor(0,1,0,1);
 }
 
-Entity::Entity(Vector position, Vector velocity, QString mass, QString diameter, bool moveable)
+Entity::Entity(Vector position, Vector velocity, QString mass, QString diameter, QString name, bool moveable)
 {
     this->position_ = position;
     this->velocity_ = velocity;
     this->acceleration_ = Vector("0", "0", "0");
     this->mass_ = mass.toStdString();
     this->diameter_ = diameter.toStdString();
+    this->name_ = name;
     this->moveable_ = moveable;
     this->currentTick_ = 1;
 
-    //this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, this->diameter_.get_d() / SCALE);
-    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, 1, 8, 8);
+    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, 16, 16);
     this->renderComponent_->setColor(0,1,0,1);
 }
 
@@ -88,6 +88,11 @@ mpf_class Entity::diameter()
 void Entity::setDiameter(mpf_class diameter)
 {
     this->diameter_ = diameter;
+}
+
+QString Entity::name()
+{
+    return this->name_;
 }
 
 bool Entity::moveable()
@@ -149,7 +154,8 @@ void Entity::move(mpf_class deltaTime)
         this->velocity_ += this->acceleration_ * deltaTime;
         // Add the velocity to the position
         this->position_ += this->velocity_ * deltaTime;
-        this->renderComponent_->setPosition(this->position_.x().get_d() / SCALE, this->position_.y().get_d() / SCALE, this->position_.z().get_d() / SCALE);
+        Polycode::Vector3 renderPos = this->renderCoords();
+        this->renderComponent_->setPosition(renderPos.x, renderPos.y, renderPos.z);
 
         // Output the position for visualization purposes every sampleStep calculations
 //        if ((this->sampleTick_ % this->currentTick_) > 0) {
@@ -160,7 +166,15 @@ void Entity::move(mpf_class deltaTime)
     }
 }
 
-Polycode::ScenePrimitive* Entity::getRenderComponent()
+Polycode::ScenePrimitive* Entity::renderComponent()
 {
     return this->renderComponent_;
+}
+
+Polycode::Vector3 Entity::renderCoords()
+{
+    Polycode::Vector3 renderPos(this->position_.x().get_d() / SCALE,
+                                this->position_.y().get_d() / SCALE,
+                                this->position_.z().get_d() / SCALE);
+    return renderPos;
 }

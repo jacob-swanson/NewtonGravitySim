@@ -29,7 +29,7 @@ public:
      * @param mass Mass of the Entity in kilograms
      * @param moveable True if Entity will move, false otherwise
      */
-    Entity(Vector position, Vector velocity, QString mass, QString diameter, bool moveable);
+    Entity(Vector position, Vector velocity, QString mass, QString diameter, QString name, bool moveable);
 
     /**
      * @brief position Get the current position of the Entity in meters
@@ -116,7 +116,23 @@ public:
      */
     void move(mpf_class deltaTime);
 
-    Polycode::ScenePrimitive* getRenderComponent();
+    /**
+     * @brief getRenderComponent Get the rendering component used by Polycode
+     * @return
+     */
+    Polycode::ScenePrimitive* renderComponent();
+
+    /**
+     * @brief getRenderCoords Get the rendering coordinates, which are scaled down by a large factor
+     * @return
+     */
+    Polycode::Vector3 renderCoords();
+
+    /**
+     * @brief getName Get the name of the Entity
+     * @return
+     */
+    QString name();
 
 
 private:
@@ -129,6 +145,7 @@ private:
     static unsigned short outputPrecision_;
     unsigned long currentTick_;
     mpf_class diameter_;
+    QString name_;
     Polycode::ScenePrimitive* renderComponent_;
 
 };
