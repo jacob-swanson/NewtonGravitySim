@@ -4,9 +4,11 @@
 #
 #-------------------------------------------------
 
-TARGET = NewtonGravitySim
+QT += core
 
-CONFIG = console
+TARGET = NewtonGravitySim
+CONFIG += console
+CONFIG -= app_bundle
 LIBS += -lgmpxx -lgmp
 
 # Polycode stuff
