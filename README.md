@@ -21,6 +21,7 @@ cd NewtonGravitySim
 ```
 apt-get install qt5-default
 apt-get install libgmp-dev
+apt-get install libopenal1
 cd NewtonGravitySim
 qmake
 make
