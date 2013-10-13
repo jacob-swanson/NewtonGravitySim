@@ -17,7 +17,7 @@ apt-get install libsdl-dev
 cd NewtonGravitySim
 ./buildPolycode.sh
 ```
-#### Build NewtonGravitySim ####
+#### Build and Run NewtonGravitySim ####
 ```
 apt-get install qt5-default
 apt-get install libgmp-dev
@@ -25,4 +25,5 @@ apt-get install libopenal1
 cd NewtonGravitySim
 qmake
 make
+./NewtonGravitySim
 ```
