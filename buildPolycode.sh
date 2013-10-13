@@ -31,9 +31,9 @@ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bi
 #make PolycodeLua
 make install
 
-cd ../../Standalone/Build
-cmake -G "Unix Makefiles" -DPYTHON_EXECUTABLE=/usr/bin/python2 ..
-make install
+#cd ../../Standalone/Build
+#cmake -G "Unix Makefiles" -DPYTHON_EXECUTABLE=/usr/bin/python2 ..
+#make install
 
 popd
 echo "Polycode build complete!"

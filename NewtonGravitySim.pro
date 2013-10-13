@@ -9,7 +9,7 @@ QT += core
 TARGET = NewtonGravitySim
 CONFIG += console
 CONFIG -= app_bundle
-LIBS += -lgmpxx -lgmp
+LIBS += -lgmpxx -lgmp -lX11
 
 # Polycode stuff
 POLYCODE_DIR = ../Polycode/Release/Linux/Framework
