@@ -27,3 +27,8 @@ qmake
 make
 ./NewtonGravitySim
 ```
+### Controls ###
+* Mousewheel up - zoom in
+* Mousewheel down - zoom out
+* Left & right arrow - change camera target
+* Hold right click and move mouse to move camera around target
