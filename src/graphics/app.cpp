@@ -86,7 +86,9 @@ bool App::update()
     QString labelText = "Target: " + this->viewTarget->name()
             + " Velocity: "
             + QString::number(this->viewTarget->velocity().length().get_d())
-            + " m/s";
+            + " m/s"
+            + " Avg Tick: "
+            + QString::number(this->universe->getAvgTickTime());
     label->setText(labelText.toStdString());
 
     // Render a frame

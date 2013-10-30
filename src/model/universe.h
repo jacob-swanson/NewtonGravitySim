@@ -1,6 +1,8 @@
 #ifndef UNIVERSE_H
 #define UNIVERSE_H
 
+#define SAMPLES 30
+
 #include "entity.h"
 
 namespace ngs
@@ -44,9 +46,17 @@ public:
      */
     void setDeltaTime(mpf_class deltaTime);
 
+    /**
+     * @brief getAvgTickTime Get the average tick time
+     * @return
+     */
+    double getAvgTickTime();
+
 private:
     QList<Entity*> entities_;
     mpf_class deltaTime_;
+    double avgTickSamples_[SAMPLES];
+    int avgTickSamplesIndex_;
 };
 }
 

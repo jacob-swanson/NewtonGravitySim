@@ -2,6 +2,7 @@
 
 #include <QMutex>
 #include <iostream>
+#include <ctime>
 
 using ngs::Universe;
 using ngs::Entity;
@@ -21,6 +22,7 @@ void Universe::simulate()
 
 void Universe::simulateStep()
 {
+    clock_t start = clock();
     foreach (Entity* e, this->entities_)
     {
         e->calcAccleration(this->entities_);
@@ -30,6 +32,12 @@ void Universe::simulateStep()
     {
         e->move(this->deltaTime_);
     }
+    // Calculate elapsed time
+    clock_t elapsed = clock() - start;
+    this->avgTickSamples_[this->avgTickSamplesIndex_] = (double)elapsed / (CLOCKS_PER_SEC * 1000);
+    this->avgTickSamplesIndex_++;
+    if (this->avgTickSamplesIndex_ >= SAMPLES)
+        this->avgTickSamplesIndex_ = 0;
 }
 
 QList<Entity*>& Universe::entities()
@@ -45,4 +53,15 @@ mpf_class Universe::deltaTime()
 void Universe::setDeltaTime(mpf_class deltaTime)
 {
     this->deltaTime_ = deltaTime;
+}
+
+double Universe::getAvgTickTime()
+{
+    double avg = 0.0;
+    for (int i = 0; i < SAMPLES; i++)
+    {
+        avg += this->avgTickSamples_[i];
+    }
+    avg = avg / SAMPLES;
+    return avg;
 }
