@@ -65,3 +65,14 @@ double Universe::getAvgTickTime()
     avg = avg / SAMPLES;
     return avg;
 }
+
+int Universe::getNumberOfThreads()
+{
+    return this->numThreads_;
+}
+
+void Universe::setNumberOfThreads(int threads)
+{
+    this->numThreads_ = threads;
+}
+

@@ -10,7 +10,7 @@ using namespace Polycode;
 class App : public EventHandler
 {
 public:
-    App(PolycodeView* view);
+    App(PolycodeView* view, bool random, int randomValue, int numThreads);
     ~App();
 
     bool update();

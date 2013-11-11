@@ -1,8 +1,12 @@
 #include "app.h"
 #include <math.h>
 
-App::App(PolycodeView* view) : EventHandler()
+App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : EventHandler()
 {
+    // Create Universe
+    universe = new ngs::Universe();
+    universe->setNumberOfThreads(numThreads);
+
     core = new POLYCODE_CORE(view, 1280, 720, false, false, 0, 0, 60);
 
     // Add content
@@ -14,30 +18,39 @@ App::App(PolycodeView* view) : EventHandler()
     scene = new Scene();
     CoreServices::getInstance()->getRenderer()->setClippingPlanes(0.1f, 1000000000.f);
 
-    // Create simulation entities
-    ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", "1391000000", "sun", true);
-    ngs::Entity* earth = new ngs::Entity(ngs::Vector("149600000000", "0", "0"), ngs::Vector("0", "29780", "0"), "5.97219e24", "12742000", "earth", true);
-    ngs::Entity* moon = new ngs::Entity(ngs::Vector("149984400000", "0", "0"), ngs::Vector("0", "30802", "0"), "7.34767309e22", "3474800", "moon", true);
-    ngs::Entity* mars = new ngs::Entity(ngs::Vector("227900000000", "0", "0"), ngs::Vector("0", "24077", "0"), "639e21", "6779000", "mars", true);
-    ngs::Entity* mercury = new ngs::Entity(ngs::Vector("57910000000", "0", "0"), ngs::Vector("0", "47870", "0"), "328.5e21", "4879000", "mercury", true);
+    if (!random)
+    {
+        // Create simulation entities
+        ngs::Entity* sun = new ngs::Entity(ngs::Vector("0", "0", "0"), ngs::Vector("0", "0", "0"), "1.9891e30", "1391000000", "sun", true);
+        ngs::Entity* earth = new ngs::Entity(ngs::Vector("149600000000", "0", "0"), ngs::Vector("0", "29780", "0"), "5.97219e24", "12742000", "earth", true);
+        ngs::Entity* moon = new ngs::Entity(ngs::Vector("149984400000", "0", "0"), ngs::Vector("0", "30802", "0"), "7.34767309e22", "3474800", "moon", true);
+        ngs::Entity* mars = new ngs::Entity(ngs::Vector("227900000000", "0", "0"), ngs::Vector("0", "24077", "0"), "639e21", "6779000", "mars", true);
+        ngs::Entity* mercury = new ngs::Entity(ngs::Vector("57910000000", "0", "0"), ngs::Vector("0", "47870", "0"), "328.5e21", "4879000", "mercury", true);
 
-    // Add the rendering components to the scene
-    scene->addEntity(sun->renderComponent());
-    scene->addEntity(earth->renderComponent());
-    scene->addEntity(moon->renderComponent());
-    scene->addEntity(mars->renderComponent());
-    scene->addEntity(mercury->renderComponent());
+        // Add the rendering components to the scene
+        scene->addEntity(sun->renderComponent());
+        scene->addEntity(earth->renderComponent());
+        scene->addEntity(moon->renderComponent());
+        scene->addEntity(mars->renderComponent());
+        scene->addEntity(mercury->renderComponent());
 
-    // Set the initial target for the camera
-    this->viewTarget = sun;
+        // Set the initial target for the camera
+        this->viewTarget = sun;
 
-    // Add the Entities to the simulation
-    universe = new ngs::Universe();
-    universe->entities().push_back(sun);
-    universe->entities().push_back(earth);
-    universe->entities().push_back(moon);
-    universe->entities().push_back(mars);
-    universe->entities().push_back(mercury);
+        // Add the Entities to the simulation
+        universe->entities().push_back(sun);
+        universe->entities().push_back(earth);
+        universe->entities().push_back(moon);
+        universe->entities().push_back(mars);
+        universe->entities().push_back(mercury);
+    }
+    else
+    {
+        for (int i = 0; i < randomValue; i++)
+        {
+
+        }
+    }
 
     // Set the initial camera position
     this->camOffset.x = 400;
