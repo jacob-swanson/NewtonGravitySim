@@ -9,7 +9,7 @@ using ngs::Entity;
 
 Universe::Universe()
 {
-    this->deltaTime_ = 10000;
+    this->deltaTime_ = 1000;
 }
 
 void Universe::simulate()

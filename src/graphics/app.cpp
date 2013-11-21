@@ -1,5 +1,8 @@
 #include "app.h"
 #include <math.h>
+#include <gmp.h>
+#include <gmpxx.h>
+#include <iostream>
 
 App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : EventHandler()
 {
@@ -46,10 +49,35 @@ App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : Eve
     }
     else
     {
+        gmp_randclass r(gmp_randinit_default);
         for (int i = 0; i < randomValue; i++)
         {
+            mpf_class x;
+            x = r.get_f();
+            x = x * 384400000000;
 
+            mpf_class y;
+            y = r.get_f();
+            y = y * 384400000000;
+
+            mpf_class z;
+            z = r.get_f();
+            z = z * 384400000000;
+
+            mpf_class mass;
+            mass = r.get_f();
+            mass = mass * 7.34767309e22;
+
+            mpf_class diameter;
+            diameter = r.get_f();
+            diameter = diameter * 1391000000;
+
+            ngs::Entity* e = new ngs::Entity(ngs::Vector(x,y,z), ngs::Vector(0,0,0), mass, diameter, QString::number(i), true);
+
+            scene->addEntity(e->renderComponent());
+            universe->entities().push_back(e);
         }
+        this->viewTarget = universe->entities().at(0);
     }
 
     // Set the initial camera position

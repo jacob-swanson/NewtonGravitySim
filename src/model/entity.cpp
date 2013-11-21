@@ -22,7 +22,7 @@ Entity::Entity()
     this->currentTick_ = 1;
 
     this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, 16, 16);
-    this->renderComponent_->setColor(0,1,0,1);
+    this->renderComponent_->setColor(1,1,1,1);
 }
 
 Entity::Entity(Vector position, Vector velocity, QString mass, QString diameter, QString name, bool moveable)
@@ -37,7 +37,22 @@ Entity::Entity(Vector position, Vector velocity, QString mass, QString diameter,
     this->currentTick_ = 1;
 
     this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, 16, 16);
-    this->renderComponent_->setColor(0,1,0,1);
+    this->renderComponent_->setColor(1,1,1,1);
+}
+
+Entity::Entity(Vector position, Vector velocity, mpf_class mass, mpf_class diameter, QString name, bool moveable)
+{
+    this->position_ = position;
+    this->velocity_ = velocity;
+    this->acceleration_ = Vector("0", "0", "0");
+    this->mass_ = mass;
+    this->diameter_ = diameter;
+    this->name_ = name;
+    this->moveable_ = moveable;
+    this->currentTick_ = 1;
+
+    this->renderComponent_ = new Polycode::ScenePrimitive(Polycode::ScenePrimitive::TYPE_SPHERE, this->diameter_.get_d() / SCALE, 16, 16);
+    this->renderComponent_->setColor(1,1,1,1);
 }
 
 Vector Entity::position()

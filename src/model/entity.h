@@ -32,6 +32,17 @@ public:
     Entity(Vector position, Vector velocity, QString mass, QString diameter, QString name, bool moveable);
 
     /**
+     * @brief Entity
+     * @param position
+     * @param velocity
+     * @param mass
+     * @param diameter
+     * @param name
+     * @param moveable
+     */
+    Entity(Vector position, Vector velocity, mpf_class mass, mpf_class diameter, QString name, bool moveable);
+
+    /**
      * @brief position Get the current position of the Entity in meters
      * @return
      */
