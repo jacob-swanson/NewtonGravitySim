@@ -33,3 +33,8 @@ make
 * Up & down arrow - change delta time
 * Left & right arrow - change camera target
 * Hold right click and move mouse to move camera around target
+
+### Command Line Options ###
+* --random (-r) [n] - Generate a random universe with n entities
+* --threads (-t) [n] - Use n threads for calculation
+* --help (-h) - Show help
