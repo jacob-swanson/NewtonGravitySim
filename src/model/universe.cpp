@@ -2,7 +2,15 @@
 
 #include <QMutex>
 #include <iostream>
-#include <ctime>
+#include <omp.h>
+
+#include <sys/time.h>
+// copied from mpbench
+#define TIMER_CLEAR     (tv1.tv_sec = tv1.tv_usec = tv2.tv_sec = tv2.tv_usec = 0)
+#define TIMER_START     gettimeofday(&tv1, (struct timezone*)0)
+#define TIMER_ELAPSED   ((tv2.tv_usec-tv1.tv_usec)+((tv2.tv_sec-tv1.tv_sec)*1000000))
+#define TIMER_STOP      gettimeofday(&tv2, (struct timezone*)0)
+struct timeval tv1,tv2;
 
 using ngs::Universe;
 using ngs::Entity;
@@ -22,10 +30,16 @@ void Universe::simulate()
 
 void Universe::simulateStep()
 {
-    clock_t start = clock();
-    foreach (Entity* e, this->entities_)
+    // Start recording time
+    TIMER_CLEAR;
+    TIMER_START;
+#pragma omp parallel num_threads(this->numThreads_)
     {
-        e->calcAccleration(this->entities_);
+#pragma omp for
+    for (int i = 0; i < this->entities_.length(); i++)
+    {
+        this->entities_.at(i)->calcAccleration(this->entities_);
+    }
     }
 
     foreach (Entity* e, this->entities_)
@@ -33,8 +47,10 @@ void Universe::simulateStep()
         e->move(this->deltaTime_);
     }
     // Calculate elapsed time
-    clock_t elapsed = clock() - start;
-    this->avgTickSamples_[this->avgTickSamplesIndex_] = (double)elapsed / (CLOCKS_PER_SEC * 1000);
+    // Stop timer
+    TIMER_STOP;
+
+    this->avgTickSamples_[this->avgTickSamplesIndex_] = (float)TIMER_ELAPSED/1000.0;
     this->avgTickSamplesIndex_++;
     if (this->avgTickSamplesIndex_ >= SAMPLES)
         this->avgTickSamplesIndex_ = 0;

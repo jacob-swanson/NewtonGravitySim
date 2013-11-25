@@ -1,7 +1,7 @@
 #ifndef UNIVERSE_H
 #define UNIVERSE_H
 
-#define SAMPLES 30
+#define SAMPLES 60
 
 #include "entity.h"
 
