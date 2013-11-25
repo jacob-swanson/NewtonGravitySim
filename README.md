@@ -30,5 +30,6 @@ make
 ### Controls ###
 * Mousewheel up - zoom in
 * Mousewheel down - zoom out
+* Up & down arrow - change delta time
 * Left & right arrow - change camera target
 * Hold right click and move mouse to move camera around target
