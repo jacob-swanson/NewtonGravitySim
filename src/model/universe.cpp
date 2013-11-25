@@ -17,7 +17,7 @@ using ngs::Entity;
 
 Universe::Universe()
 {
-    this->deltaTime_ = 1000;
+    this->deltaTime_ = 10;
 }
 
 void Universe::simulate()
@@ -61,12 +61,12 @@ QList<Entity*>& Universe::entities()
     return this->entities_;
 }
 
-mpf_class Universe::deltaTime()
+double Universe::deltaTime()
 {
     return this->deltaTime_;
 }
 
-void Universe::setDeltaTime(mpf_class deltaTime)
+void Universe::setDeltaTime(double deltaTime)
 {
     this->deltaTime_ = deltaTime;
 }

@@ -83,6 +83,9 @@ App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : Eve
         this->viewTarget = universe->entities().at(0);
     }
 
+    // Set initial deltaTime
+    this->universe->setDeltaTime(this->deltaTimes[this->deltaIndex]);
+
     // Set the initial camera position
     this->camOffset.x = 400;
     scene->getDefaultCamera()->setPosition(0, 0, 400);
@@ -132,7 +135,9 @@ bool App::update()
             + QString::number(this->viewTarget->velocity().length().get_d())
             + " m/s"
             + " Avg Tick: "
-            + QString::number(this->universe->getAvgTickTime());
+            + QString::number(this->universe->getAvgTickTime())
+            + " DeltaTime: "
+            + QString::number(this->universe->deltaTime());
     label->setText(labelText.toStdString());
 
     // Render a frame
@@ -185,6 +190,20 @@ void App::handleEvent(Event *e)
                     index += 1;
 
                 this->viewTarget = universe->entities().at(index);
+            }
+            else if (inputEvent->keyCode() == KEY_UP)
+            {
+                // Increase time simulated
+                if (deltaIndex < DELTA_SIZE - 1)
+                    deltaIndex++;
+                this->universe->setDeltaTime(this->deltaTimes[this->deltaIndex]);
+            }
+            else if (inputEvent->keyCode() == KEY_DOWN)
+            {
+                // Decrease time simulated
+                if (deltaIndex > 0)
+                    this->deltaIndex--;
+                this->universe->setDeltaTime(this->deltaTimes[this->deltaIndex]);
             }
         }
         else if (e->getEventCode() == InputEvent::EVENT_MOUSEDOWN)

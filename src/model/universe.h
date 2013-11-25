@@ -38,13 +38,13 @@ public:
      * @brief deltaTime Get the deltaTime used for moving the Entities
      * @return
      */
-    mpf_class deltaTime();
+    double deltaTime();
 
     /**
      * @brief setDeltaTime Set the deltaTime for moving the Entities
      * @param deltaTime
      */
-    void setDeltaTime(mpf_class deltaTime);
+    void setDeltaTime(double deltaTime);
 
     /**
      * @brief getAvgTickTime Get the average tick time
@@ -66,7 +66,7 @@ public:
 
 private:
     QList<Entity*> entities_;
-    mpf_class deltaTime_;
+    double deltaTime_;
     double avgTickSamples_[SAMPLES];
     int avgTickSamplesIndex_;
     int numThreads_;
