@@ -91,11 +91,22 @@ App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : Eve
     scene->getDefaultCamera()->setPosition(0, 0, 400);
     scene->getDefaultCamera()->lookAt(Vector3(0, 0, 0));
 
-    // Create imformation label
-    label = new ScreenLabel("<ENTITY NAME>", 32, "sans", Label::ANTIALIAS_FULL);
-    label->setPosition(15, 15);
-    label->setText("Target: " + this->viewTarget->name().toStdString());
-    screen->addChild(label);
+    // Create labels
+    targetLabel = new ScreenLabel("<ENTITY>", 32, "sans", Label::ANTIALIAS_FULL);
+    targetLabel->setPosition(15, 15);
+    screen->addChild(targetLabel);
+
+    velocityLabel = new ScreenLabel("<VELOCITY>", 32, "sans", Label::ANTIALIAS_FULL);
+    velocityLabel->setPosition(15, 45);
+    screen->addChild(velocityLabel);
+
+    timeLabel = new ScreenLabel("<VELOCITY>", 32, "sans", Label::ANTIALIAS_FULL);
+    timeLabel->setPosition(15, 75);
+    screen->addChild(timeLabel);
+
+    deltaTimeLabel = new ScreenLabel("<VELOCITY>", 32, "sans", Label::ANTIALIAS_FULL);
+    deltaTimeLabel->setPosition(15, 105);
+    screen->addChild(deltaTimeLabel);
 
     // Add input listeners
     core->getInput()->addEventListener(this, InputEvent::EVENT_MOUSEWHEEL_UP);
@@ -130,15 +141,20 @@ bool App::update()
     scene->getDefaultCamera()->lookAt(this->viewTarget->renderCoords(), Vector3(0,0,1));
 
     // Update the text label
-    QString labelText = "Target: " + this->viewTarget->name()
-            + " Velocity: "
+    QString targetText = "Target: "
+            + this->viewTarget->name();
+    QString velocityText = "Velocity: "
             + QString::number(this->viewTarget->velocity().length().get_d())
-            + " m/s"
-            + " Avg Tick: "
-            + QString::number(this->universe->getAvgTickTime())
-            + " DeltaTime: "
+            + " m/s";
+    QString timeText = "Avg Tick: "
+            + QString::number(this->universe->getAvgTickTime());
+    QString deltaTimeText = "DeltaTime: "
             + QString::number(this->universe->deltaTime());
-    label->setText(labelText.toStdString());
+
+    targetLabel->setText(targetText.toStdString());
+    velocityLabel->setText(velocityText.toStdString());
+    timeLabel->setText(timeText.toStdString());
+    deltaTimeLabel->setText(deltaTimeText.toStdString());
 
     // Render a frame
     return core->updateAndRender();

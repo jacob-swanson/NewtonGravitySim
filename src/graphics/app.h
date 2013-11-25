@@ -22,7 +22,10 @@ private:
     Core* core;
     Scene* scene;
     Screen* screen;
-    ScreenLabel* label;
+    ScreenLabel* velocityLabel;
+    ScreenLabel* targetLabel;
+    ScreenLabel* timeLabel;
+    ScreenLabel* deltaTimeLabel;
 
     ngs::Universe* universe;
     ngs::Entity* viewTarget;
