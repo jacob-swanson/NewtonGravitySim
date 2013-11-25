@@ -3,6 +3,7 @@
 #include <gmp.h>
 #include <gmpxx.h>
 #include <iostream>
+#include <cmath>
 
 App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : EventHandler()
 {
@@ -68,9 +69,11 @@ App::App(PolycodeView* view, bool random, int randomValue, int numThreads) : Eve
             mass = r.get_f();
             mass = mass * 7.34767309e22;
 
+            // Calculate diameter using very small density
             mpf_class diameter;
-            diameter = r.get_f();
-            diameter = diameter * 1391000000;
+            diameter = (3 * mass)/(4 * PI * 0.00000001);
+            double tmp = diameter.get_d();
+            diameter = std::pow(tmp, 0.3);
 
             ngs::Entity* e = new ngs::Entity(ngs::Vector(x,y,z), ngs::Vector(0,0,0), mass, diameter, QString::number(i), true);
 
