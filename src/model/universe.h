@@ -1,6 +1,8 @@
 #ifndef UNIVERSE_H
 #define UNIVERSE_H
 
+#define SAMPLES 60
+
 #include "entity.h"
 
 namespace ngs
@@ -36,17 +38,38 @@ public:
      * @brief deltaTime Get the deltaTime used for moving the Entities
      * @return
      */
-    mpf_class deltaTime();
+    double deltaTime();
 
     /**
      * @brief setDeltaTime Set the deltaTime for moving the Entities
      * @param deltaTime
      */
-    void setDeltaTime(mpf_class deltaTime);
+    void setDeltaTime(double deltaTime);
+
+    /**
+     * @brief getAvgTickTime Get the average tick time
+     * @return
+     */
+    double getAvgTickTime();
+
+    /**
+     * @brief getNumberOfThreads Get the number of threads used
+     * @return
+     */
+    int getNumberOfThreads();
+
+    /**
+     * @brief setNumberOfThreads Set the number of threads used
+     * @param threads
+     */
+    void setNumberOfThreads(int threads);
 
 private:
     QList<Entity*> entities_;
-    mpf_class deltaTime_;
+    double deltaTime_;
+    double avgTickSamples_[SAMPLES];
+    int avgTickSamplesIndex_;
+    int numThreads_;
 };
 }
 
