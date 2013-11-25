@@ -18,6 +18,8 @@ LIBS += $${POLYCODE_DIR}/Core/lib/libPolycore.a $${POLYCODE_DIR}/Core/Dependenci
 LIBS += -lgmpxx -lgmp
 LIBS += -lrt -ldl -lpthread
 LIBS += -lGL -lGLU -lSDL -lX11
+LIBS += -fopenmp
+QMAKE_CXXFLAGS += -fopenmp
 
 TEMPLATE = app
 
